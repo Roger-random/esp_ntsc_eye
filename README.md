@@ -2,9 +2,9 @@
 
 ## The idea:
 
-A = __rossumer__'s
-[ESP_8_BIT project](https://github.com/rossumur/esp_8_bit) project's
-color composite video code, extracted at
+A = Color composite video code from __rossumer__'s
+[ESP_8_BIT project](https://github.com/rossumur/esp_8_bit)
+, extracted at
 [my fork](https://github.com/Roger-random/esp_8_bit.git).
 
 B = __Adafruit__'s
