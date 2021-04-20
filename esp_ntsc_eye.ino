@@ -36,7 +36,7 @@ void frame_generation(void* arg)
     _drawn = _frame_counter;
 
     uint8_t* bufFlat = new uint8_t[256*240];
-    memset(bufFlat, 0xE3, 256*240);
+    memset(bufFlat, 0x00, 256*240);
 
     _bufLines = new uint8_t*[240];
     uint8_t* linePointer = bufFlat;
