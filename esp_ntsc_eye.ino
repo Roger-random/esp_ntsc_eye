@@ -19,7 +19,6 @@
 
 #define PERF  // some stats about where we spend our time
 #include "src/video_out.h"
-#include "src/jubs332.h"
 
 //  True for NTSC, False for PAL
 #define NTSC_VIDEO true
@@ -35,6 +34,18 @@ void frame_generation(void* arg)
     printf("Frame generation running on core %d at %dmhz\n",
       xPortGetCoreID(),rtc_clk_cpu_freq_value(rtc_clk_cpu_freq_get()));
     _drawn = _frame_counter;
+
+    uint8_t* bufFlat = new uint8_t[256*240];
+    memset(bufFlat, 0xE3, 256*240);
+
+    _bufLines = new uint8_t*[240];
+    uint8_t* linePointer = bufFlat;
+    for (int y = 0; y < 240; y++)
+    {
+      _bufLines[y] = linePointer;
+      linePointer += 256;
+    }
+
     while(true)
     {
       // wait for blanking before drawing to avoid tearing
@@ -53,14 +64,6 @@ void setup()
   rtc_clk_cpu_freq_set(RTC_CPU_FREQ_240M);  
 
   xTaskCreatePinnedToCore(frame_generation, "frame_generation", 3*1024, NULL, 0, NULL, 0);
-
-  _bufLines = new uint8_t*[240];
-  uint8_t* linePointer = jubsRGB332;
-  for (int y = 0; y < 240; y++)
-  {
-    _bufLines[y] = linePointer;
-    linePointer += 256;
-  }
 }
 
 #ifdef PERF
