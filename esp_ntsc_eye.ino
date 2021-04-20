@@ -23,6 +23,9 @@
 //  True for NTSC, False for PAL
 #define NTSC_VIDEO true
 
+extern void eye_setup(void);
+extern void eye_loop(uint8_t** lines);
+
 uint32_t _frame_time = 0;
 uint32_t _drawn = 1;
 bool _inited = false;
@@ -46,6 +49,8 @@ void frame_generation(void* arg)
       linePointer += 256;
     }
 
+    eye_setup();
+
     while(true)
     {
       // wait for blanking before drawing to avoid tearing
@@ -53,6 +58,7 @@ void frame_generation(void* arg)
 
       // Draw a frame
       uint32_t t = xthal_get_ccount();
+      eye_loop(_bufLines);
       _frame_time = xthal_get_ccount() - t;
       _lines = _bufLines;
       _drawn++;
